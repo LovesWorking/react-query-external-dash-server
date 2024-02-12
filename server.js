@@ -1,12 +1,22 @@
 // server.js
-import { socketHandle } from "react-query-external-dash";
+const { socketHandle } = require("react-query-external-dash");
+
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+// const io = socketIo(server);
+// Configure CORS policy for Socket.IO
+const io = new Server(server, {
+  cors: {
+    origin: "*", // Accept connections from any origin
+    methods: ["GET", "POST"], // Allow only GET and POST requests
+    // allowedHeaders: ["my-custom-header"], // Optional: specify custom headers
+    // credentials: true, // Optional: enable credentials
+  },
+});
 socketHandle({ io });
 // Serve static files from the React app
 app.use(express.static("build"));
